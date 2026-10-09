@@ -1,6 +1,6 @@
-﻿namespace GymManagementSystem.MVC.Models
+﻿namespace GymManagementSystem.DAL.Models
 {
-    public class Plan
+    public class Plan : BaseEntity
     {
         public int Id { get; set; }
         public DateTime CreatedAt { get; set; }

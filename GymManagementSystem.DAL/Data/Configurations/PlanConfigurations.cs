@@ -1,8 +1,8 @@
-﻿using GymManagementSystem.MVC.Models;
+﻿using GymManagementSystem.DAL.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace GymManagementSystem.MVC.Configurations
+namespace GymManagementSystem.DAL.Data.Configurations
 {
     public class PlanConfigurations : IEntityTypeConfiguration<Plan>
     {
