@@ -1,3 +1,5 @@
+using GymManagementSystem.BLL.Services.Members.Classes;
+using GymManagementSystem.BLL.Services.Members.Interfaces;
 using GymManagementSystem.DAL.Data.Contexts;
 using GymManagementSystem.DAL.Repositories.Classes;
 using GymManagementSystem.DAL.Repositories.Interfaces;
@@ -20,8 +22,8 @@ namespace GymManagementSystem.MVC
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
 
-            builder.Services.AddScoped<IPlanRepository, PlanRepository>();
-
+            builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            builder.Services.AddScoped<IMemberService, MemberService>();
             #endregion
             var app = builder.Build();
 

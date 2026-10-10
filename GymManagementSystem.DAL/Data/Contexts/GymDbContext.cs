@@ -20,7 +20,8 @@ namespace GymManagementSystem.DAL.Data.Contexts
         public DbSet<Category> Categories { get; set; }
         public DbSet<Member> Members { get; set; }
         public DbSet<Trainer> Trainers { get; set; }
-        public DbSet<HealthRecord> HealthRecords { get; set; }
+        public DbSet<MemberSession> MemberSessions { get; set; }
+        public DbSet<Membership> Memberships { get; set; }
     }
 }
 
