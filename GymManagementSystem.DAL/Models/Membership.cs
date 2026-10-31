@@ -8,8 +8,8 @@ public class Membership : BaseEntity
     public int PlanId { get; set; }
     // startDate => CreatedAt
     public DateTime EndDate { get; set; }
-    public string Status => EndDate > DateTime.Now ? "Active" : "Expired";
-    public bool IsActive => EndDate > DateTime.Now;
+    public string Status => IsActive ? "Active" : "Expired";
+    public bool IsActive => EndDate > DateTime.Now && CreatedAt <= DateTime.Now;
 
 
 }

@@ -1,6 +1,7 @@
 using GymManagementSystem.BLL.Services.Members.Classes;
 using GymManagementSystem.BLL.Services.Members.Interfaces;
 using GymManagementSystem.DAL.Data.Contexts;
+using GymManagementSystem.DAL.Models;
 using GymManagementSystem.DAL.Repositories.Classes;
 using GymManagementSystem.DAL.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -24,6 +25,10 @@ namespace GymManagementSystem.MVC
 
             builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             builder.Services.AddScoped<IMemberService, MemberService>();
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            //builder.Services.AddScoped<IRepository<HealthRecord>, Repository<HealthRecord>>();
+            //builder.Services.AddScoped<IRepository<Membership>, Repository<Membership>>();
+            //builder.Services.AddScoped<IRepository<Plan>, Repository<Plan>>();
             #endregion
             var app = builder.Build();
 

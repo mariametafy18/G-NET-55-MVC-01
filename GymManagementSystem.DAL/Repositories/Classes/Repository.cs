@@ -14,21 +14,23 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : BaseEnti
         _dbContext = dbContext;
         _set = _dbContext.Set<TEntity>();
     }
-    public async Task<int> AddAsync(TEntity entity)
+    public async Task AddAsync(TEntity entity)
     {
         await _set.AddAsync(entity);
-        return await _dbContext.SaveChangesAsync();
     }
 
-    public async Task<int> DeleteAsync(TEntity entity)
+    public async Task DeleteAsync(TEntity entity)
     {
         _set.Remove(entity);
-        return await _dbContext.SaveChangesAsync();
     }
 
     public async Task<IEnumerable<TEntity>> GetAllAsync(bool tracking = false)
     {
         return tracking ?await _set.ToListAsync() : await _set.AsNoTracking().ToListAsync();
+    }
+    public IQueryable<TEntity> GetAll(bool tracking = false)
+    {
+        return tracking ? _set : _set.AsNoTracking();
     }
 
     public async Task<TEntity?> GetByIdAsync(int id)
@@ -36,9 +38,8 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : BaseEnti
         return await _set.FindAsync(id);
     }
 
-    public async Task<int> UpdateAsync(TEntity entity)
+    public async Task UpdateAsync(TEntity entity)
     {
         _set.Update(entity);
-        return await _dbContext.SaveChangesAsync();
     }
 }

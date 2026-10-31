@@ -1,4 +1,5 @@
-﻿using GymManagementSystem.DAL.Models.Enums;
+﻿using GymManagementSystem.BLL.Validation;
+using GymManagementSystem.DAL.Models.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace GymManagementSystem.BLL.Services.Members.ViewModels
@@ -12,6 +13,7 @@ namespace GymManagementSystem.BLL.Services.Members.ViewModels
         [Required(ErrorMessage = "Email Is Required")]
         [EmailAddress(ErrorMessage = "Invalid email format")]
         [DataType(DataType.EmailAddress)]
+        [UniqueEmail]
 
         public string Email { get; set; } = default!;
 
@@ -19,6 +21,7 @@ namespace GymManagementSystem.BLL.Services.Members.ViewModels
         [Phone(ErrorMessage = "Invalid phone number")]
         [RegularExpression(@"^(010|011|012|015)\d{8}$", ErrorMessage = "Phone number must be a valid Egyptian mobile number")]
         [DataType(DataType.PhoneNumber)]
+        [UniquePhone]
         public string Phone { get; set; } = default!;
 
         [Required(ErrorMessage = "Date of Birth is required")]
