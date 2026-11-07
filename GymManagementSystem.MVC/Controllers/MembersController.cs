@@ -1,6 +1,7 @@
 ﻿using GymManagementSystem.BLL.Services.Members.Interfaces;
 using GymManagementSystem.BLL.Services.Members.ViewModels;
 using GymManagementSystem.DAL.Models;
+using GymManagementSystem.MVC.Controllers;
 using Microsoft.AspNetCore.Mvc;
 namespace GymManagementSystem.PL.Controllers;
 
@@ -13,8 +14,11 @@ public class MembersController : Controller
     }
     public async Task<IActionResult> IndexAsync()
     {
-        var members =  await _memberService.GetMembersAsync();
-        return View(members);
+        var result = _memberService.GetMembersAsync();
+        if (result.Success)
+            return View(result.Value);
+
+        return RedirectToAction(nameof(Index), nameof(HomeController));
     }
     [HttpGet]
     public IActionResult Create()
@@ -26,49 +30,49 @@ public class MembersController : Controller
     {
         if (!ModelState.IsValid) return View(model);
         var result = await _memberService.AddMemberAsync(model);
-        if (result)
+        if (result.Success)
         {
             TempData["SuccessMessage"] = "Member Created Successfully";
             return RedirectToAction(nameof(Index));
         }
         else
         {
-            TempData["ErrorMessage"] = "Member Creation Failed";
+            TempData["ErrorMessage"] = result.error;
             return RedirectToAction(nameof(Create));
         }
     }
 
     public async Task<IActionResult> Details(int? id)
     {
-        var member = await _memberService.GetMemberAsync(id);
-        if(member == null)
+        var result = await _memberService.GetMemberAsync(id);
+        if(!result.Success)
         {
-            TempData["ErrorMessage"] = "Member not found";
+            TempData["ErrorMessage"] = result.error;
             return RedirectToAction(nameof(Index));
         }
-        return View(member);
+        return View(result.Value);
     }
     public async Task<IActionResult> HealthRecordDetails(int? id)
     {
-        var model = await _memberService.GetHealthRecordDetailsAsync(id);
-        if (model == null)
+        var result = await _memberService.GetHealthRecordDetailsAsync(id);
+        if (!result.Success)
         {
-            TempData["ErrorMessage"] = "Health Record not found";
+            TempData["ErrorMessage"] = result.error;
             return RedirectToAction(nameof(Index));
         }
-        return View(model);
+        return View(result.Value);
     }
 
     public async Task<IActionResult> EditMember(int? id)
     {
-        var member = await _memberService.GetMemberToUpdateAsync(id);
+        var result = await _memberService.GetMemberToUpdateAsync(id);
 
-        if (member == null) 
+        if (!result.Success) 
         {
-            TempData["ErrorMessage"] = "Member not found";
+            TempData["ErrorMessage"] = result.error;
             return RedirectToAction(nameof(Index));
         }
-        return View(member);
+        return View(result.Value);
     }
 
     [HttpPost]
@@ -77,14 +81,14 @@ public class MembersController : Controller
         if (!ModelState.IsValid) return View(model);
         var result = await _memberService.UpdateMemberAsync(model);
 
-        if (result)
+        if (result.Success)
         {
             TempData["SuccessMessage"] = "Member Updated Successfully";
             return RedirectToAction(nameof(Index));
         }
         else
         {
-            TempData["ErrorMessage"] = "Member Update Failed";
+            TempData["ErrorMessage"] = result.error;
             return RedirectToAction(nameof(model));
         }
     }
@@ -99,14 +103,14 @@ public class MembersController : Controller
     {
         var result = await _memberService.DeleteMemberAsync(Id);
 
-        if (result)
+        if (result.Success)
         {
             TempData["SuccessMessage"] = "Member deleted Successfully";
             return RedirectToAction(nameof(Index));
         }
         else
         {
-            TempData["ErrorMessage"] = "Member Delete Failed";
+            TempData["ErrorMessage"] = result.error;
             return View(Id);
         }
     }

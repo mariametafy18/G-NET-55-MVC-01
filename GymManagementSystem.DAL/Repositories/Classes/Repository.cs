@@ -24,9 +24,9 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : BaseEnti
         _set.Remove(entity);
     }
 
-    public async Task<IEnumerable<TEntity>> GetAllAsync(bool tracking = false)
+    public IEnumerable<TEntity> GetAllAsync(bool tracking = false)
     {
-        return tracking ?await _set.ToListAsync() : await _set.AsNoTracking().ToListAsync();
+        return tracking ? _set.ToList() : _set.AsNoTracking().ToList();
     }
     public IQueryable<TEntity> GetAll(bool tracking = false)
     {

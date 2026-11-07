@@ -1,7 +1,9 @@
+using GymManagementSystem.BLL;
 using GymManagementSystem.BLL.Services.Members.Classes;
 using GymManagementSystem.BLL.Services.Members.Interfaces;
+using GymManagementSystem.BLL.Services.Sessions.Classes;
+using GymManagementSystem.BLL.Services.Sessions.Interfaces;
 using GymManagementSystem.DAL.Data.Contexts;
-using GymManagementSystem.DAL.Models;
 using GymManagementSystem.DAL.Repositories.Classes;
 using GymManagementSystem.DAL.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -25,7 +27,12 @@ namespace GymManagementSystem.MVC
 
             builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             builder.Services.AddScoped<IMemberService, MemberService>();
+            builder.Services.AddScoped<IMemberRepository, MemberRepository>();
+            builder.Services.AddScoped<ISessionService, SessionService>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddScoped<ISessionRepository, SessionRepository>();
+            builder.Services.AddAutoMapper(x => x.AddProfile(new MappingProfile()));
+
             //builder.Services.AddScoped<IRepository<HealthRecord>, Repository<HealthRecord>>();
             //builder.Services.AddScoped<IRepository<Membership>, Repository<Membership>>();
             //builder.Services.AddScoped<IRepository<Plan>, Repository<Plan>>();

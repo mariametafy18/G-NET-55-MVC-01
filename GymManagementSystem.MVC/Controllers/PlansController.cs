@@ -17,7 +17,7 @@ namespace GymManagementSystem.MVC.Controllers
         public async Task<IActionResult> IndexAsync()
 
         {
-            var plans = await _planRepository.GetAllAsync();
+            var plans = _planRepository.GetAllAsync();
             return View(plans);
         }
 
