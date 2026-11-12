@@ -1,6 +1,6 @@
-﻿namespace GymManagementSystem.MVC.Models
+﻿namespace GymManagementSystem.DAL.Models
 {
-    public class Plan
+    public class Plan : BaseEntity
     {
         public int Id { get; set; }
         public DateTime CreatedAt { get; set; }
@@ -10,5 +10,6 @@
         public int DurationDays { get; set; }
         public decimal Price { get; set; }
         public bool IsActive { get; set; }   // soft-delete flag
+        public ICollection<Membership> Memberships { get; set; }
     }
 }
